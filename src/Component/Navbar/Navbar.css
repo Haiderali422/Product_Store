@@ -1,0 +1,15 @@
+.icon{
+    display: flex;
+    margin-left: 900px;
+    margin-top: 25px;
+
+}
+.navbar {
+    display: flex;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    justify-content:space-evenly;
+    padding: 1rem;
+    color: green;
+}
