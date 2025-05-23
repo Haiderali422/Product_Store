@@ -45,7 +45,7 @@ const Cart = () => {
                                     <div>
                                         <Button text='-' onClick={() => dispatch({ type: DECREMENT_QUANTITY, payload: item.id })} />
                                         <Button text='+' onClick={() => dispatch({ type: INCREMENT_QUANTITY, payload: item.id })} />
-                                        <Button text='Remove' onClick={() => dispatch({ type: REMOVE_FROM_CART, payload: item.id })} />
+                                        <Button text='🗑️Remove' onClick={() => dispatch({ type: REMOVE_FROM_CART, payload: item.id })} />
                                     </div>
                                 </div>
                             </div>

@@ -1,27 +1,40 @@
-import CartIcon from "./CartIcon";
-import {Link} from 'react-router-dom'
-import './Navbar.css'
 
+import CartIcon from "./CartIcon";
+import { NavLink , Link } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar = () => {
     return (
         <nav className="navbar">
-            <h1>Fake API Store</h1>
-
+           <Link to={"/"} className="logo"> <h3>Fake API Store</h3></Link>
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <Link to="/Home">Home</Link>
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) => isActive ? "active-link" : ""}
+                        end
+                    >
+                        Home
+                    </NavLink>
                 </li>
                 <li className="nav-item">
-                    <Link to="/about">About Us</Link>
+                    <NavLink
+                        to="/about"
+                        className={({ isActive }) => isActive ? "active-link" : ""}
+                    >
+                        About Us
+                    </NavLink>
                 </li>
                 <li className="nav-item">
-                    <Link to="/contact">Contact</Link>
+                    <NavLink
+                        to="/contact"
+                        className={({ isActive }) => isActive ? "active-link" : ""}
+                    >
+                        Contact
+                    </NavLink>
                 </li>
             </ul>
-
             <CartIcon/>
-
         </nav>
     );
 };

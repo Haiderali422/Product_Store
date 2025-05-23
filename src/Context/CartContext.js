@@ -1,12 +1,11 @@
 import { createContext, useReducer, useContext, useEffect } from "react";
-import axios from "axios";
 import  CartReducer,  {initialState} from "./Reducer";
-import {FETCH_CATEGORIES , SET_PRODUCTS} from "./action";
+import {FETCH_CATEGORIES , SET_PRODUCTS , ERROR , LOADING} from "./action";
+import {fetchCategory , SelectedCategory , FetchProduct} from "../Nerwork/NetworkApi";
 
 const CartContext = createContext();
 
-const Product_URL = process.env.REACT_APP_API_PRODUCT_URL;
-const Category_URL = process.env.REACT_APP_API_CATEGORY_URL;
+
 
 
 
@@ -17,19 +16,19 @@ export const CartContextProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            dispatch({ type: "LOADING" });
+            dispatch({ type: LOADING });
             try {
-                const categoryData = await axios.get(Category_URL);
+                const categoryData =  await fetchCategory();
+
                 let productData ;
-                 selectedCategory === 'all' ? productData = await axios.get(Product_URL) :
-                     productData = await axios.get(`${Category_URL}?type=${selectedCategory}`);
+                selectedCategory === 'all' ? productData = await FetchProduct() :
+                    productData = await SelectedCategory(selectedCategory);
 
-
-                dispatch({ type: FETCH_CATEGORIES, payload: categoryData.data.categories });
-                dispatch({ type: SET_PRODUCTS, payload: productData.data.products });
+                dispatch({ type: FETCH_CATEGORIES, payload: categoryData.categories });
+                dispatch({ type: SET_PRODUCTS, payload: productData.products });
 
             } catch (err) {
-                dispatch({ type: "ERROR" });
+                dispatch({ type: ERROR });
                 console.error("Error fetching data:", err);
             }
         };
@@ -46,3 +45,6 @@ export const CartContextProvider = ({ children }) => {
 
 
 export const useCart = () => useContext(CartContext);
+
+
+
