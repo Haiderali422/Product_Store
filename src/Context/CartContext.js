@@ -1,6 +1,7 @@
 import { createContext, useReducer, useContext, useEffect } from "react";
 import axios from "axios";
 import  CartReducer,  {initialState} from "./Reducer";
+import {FETCH_CATEGORIES , SET_PRODUCTS} from "./action";
 
 const CartContext = createContext();
 
@@ -20,14 +21,12 @@ export const CartContextProvider = ({ children }) => {
             try {
                 const categoryData = await axios.get(Category_URL);
                 let productData ;
-                if (selectedCategory === 'all'){
-                    productData = await axios.get(Product_URL);
-                }else{
-                    productData = await axios.get(`${Category_URL}?type=${selectedCategory}`);
-                }
+                 selectedCategory === 'all' ? productData = await axios.get(Product_URL) :
+                     productData = await axios.get(`${Category_URL}?type=${selectedCategory}`);
 
-                dispatch({ type: "FETCH_CATEGORIES", payload: categoryData.data.categories });
-                dispatch({ type: "SET_PRODUCTS", payload: productData.data.products });
+
+                dispatch({ type: FETCH_CATEGORIES, payload: categoryData.data.categories });
+                dispatch({ type: SET_PRODUCTS, payload: productData.data.products });
 
             } catch (err) {
                 dispatch({ type: "ERROR" });
@@ -36,7 +35,7 @@ export const CartContextProvider = ({ children }) => {
         };
 
         fetchData();
-    }, [selectedCategory]);
+    }, [selectedCategory ]);
 
     return (
         <CartContext.Provider value={{ state, dispatch }}>

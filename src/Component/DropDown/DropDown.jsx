@@ -5,12 +5,15 @@ import Pagination from "../Pagination/Pagination";
 import { useCart } from "../../Context/CartContext";
 import ProductCard from "../ProductCard/ProductCard";
 import Loader from "../Loader/Loader";
+import {SET_FILTER} from "../../Context/action";
+
 
 const DropDown = () => {
 
     let [currentPage, setCurrentPage] = useState(1);
     const {state , dispatch} = useCart();
     const { products, categories, selectedCategory, isLoading  } = state;
+
 
 
     const itemsPerPage = 10;
@@ -35,7 +38,7 @@ const DropDown = () => {
     return (
         <>
             <select
-                onChange={(e) => dispatch({ type: 'SET_FILTER', payload: e.target.value })}
+                onChange={(e) => dispatch({ type: SET_FILTER, payload: e.target.value })}
                 value= {selectedCategory}
             >
                 <option value="all">All Products</option>
@@ -48,7 +51,9 @@ const DropDown = () => {
                     {currentData.length > 0 ? (
                         <div style={{ marginTop: '20px' } } className='App'>
                             {currentData.map(product => (
+
                                    <ProductCard key={product.id} product={product} />
+
                             ))}
                         </div>
                     ) : (

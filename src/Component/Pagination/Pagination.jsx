@@ -1,4 +1,4 @@
-// Pagination.js
+
 import React from 'react';
 import './Pagination.css';
 import Button from "../Button/Button";

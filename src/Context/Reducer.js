@@ -1,49 +1,78 @@
+import {SET_PRODUCTS ,
+ FETCH_CATEGORIES,
+ SET_CATEGORIES ,
+ SET_FILTER ,
+ LOADING ,
+ ERROR,
+ TOGGLE_CART ,
+ ADD_TO_CART,
+ REMOVE_FROM_CART ,
+INCREMENT_QUANTITY,
+ DECREMENT_QUANTITY,
+    SET_SINGLE_PRODUCT,
+    SET_LOADING,
+} from './action'
+
+
+
+
 export const initialState = {
     isVisible: false,
     isLoading: false,
     items: [],
     isError: false,
     products: [],
+    product:null,
     categories: [],
     selectedCategory: 'all',
-
+    filteredProducts:[],
 };
-
 const CartReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_PRODUCTS':
+        case SET_PRODUCTS :
+            return { ...state,
+                products: action.payload,
+                filteredProducts: action.payload
+            };
 
-            return { ...state, products: action.payload, filteredProducts: action.payload };
-        case "FETCH_CATEGORIES":
+        case SET_SINGLE_PRODUCT:
+            return {
+                ...state,
+                product: action.payload
+            };
+        case FETCH_CATEGORIES:
             return {
                 ...state,
                 isLoading: false,
                 categories: action.payload,
-                // isError: false,
             };
-        case 'SET_CATEGORIES':
+        case SET_CATEGORIES:
             return { ...state, categories: action.payload };
 
-        case 'SET_FILTER':
+        case SET_FILTER:
             return {
                 ...state,
                 selectedCategory: action.payload,
-                // isLoading: true,
             };
-        case "LOADING":
+        case LOADING:
             return {
                 ...state,
                 isLoading: true,
             };
-        case "ERROR":
+        case SET_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload
+            };
+        case ERROR:
             return {
                 ...state,
                 isLoading: false,
                 isError: true,
             };
-        case 'TOGGLE_CART':
+        case TOGGLE_CART:
             return { ...state, isVisible: !state.isVisible };
-        case 'ADD_TO_CART':
+        case ADD_TO_CART:
             const existing = state.items.find(item => item.id === action.payload.id);
             if (existing) {
                 console.log('addToCart', existing);
@@ -63,7 +92,7 @@ const CartReducer = (state = initialState, action) => {
                 };
             }
 
-        case 'INCREMENT_QUANTITY':
+        case INCREMENT_QUANTITY:
             return {
                 ...state,
                 items: state.items.map(item =>
@@ -73,7 +102,7 @@ const CartReducer = (state = initialState, action) => {
                 ),
             };
 
-        case 'DECREMENT_QUANTITY':
+        case DECREMENT_QUANTITY:
             return {
                 ...state,
                 items: state.items
@@ -84,20 +113,11 @@ const CartReducer = (state = initialState, action) => {
                     )
                     .filter(item => item.quantity > 0),
             };
-        case 'REMOVE_FROM_CART':
+        case REMOVE_FROM_CART:
             return {
                 ...state,
                 items: state.items.filter(item => item.id !== action.payload),
             };
-        // case 'CHANGE_QUANTITY':
-        //     return {
-        //         ...state,
-        //         items: state.items.map(item =>
-        //             item.id === action.payload.id
-        //                 ? { ...item, quantity: action.payload.quantity }
-        //                 : item
-        //         ),
-        //     };
         default:
             return state;
     }
